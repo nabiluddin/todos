@@ -1,0 +1,29 @@
+Table "todos"."user" {
+  "id" UUID [pk, default: `gen_random_uuid()`]
+  "username" VARCHAR(100) [unique, not null]
+  "email" VARCHAR(255) [unique, not null]
+  "password_hash" VARCHAR(255) [not null]
+  "repeat_type_id" UUID [not null]
+  "created_at" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+  "modified_at" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Table "todos"."repeat_type" {
+  "id" UUID [pk]
+  "type" VARCHAR(50) [not null]
+}
+
+Table "todos"."task" {
+  "id" UUID [pk, default: `gen_random_uuid()`]
+  "created_by" UUID [not null]
+  "title" VARCHAR(255) [not null]
+  "description" VARCHAR
+  "completed" BOOLEAN [default: false]
+  "due_date" DATE
+  "created_at" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+  "modified_at" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Ref "FK_Task_User_CreatedBy":"todos"."user"."id" < "todos"."task"."created_by" [update: no action, delete: cascade]
+
+Ref "FK_User_RepetType_RepetTypeId":"todos"."repeat_type"."id" < "todos"."user"."repeat_type_id" [update: no action, delete: no action]

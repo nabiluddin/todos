@@ -1,0 +1,21 @@
+{
+	"name": "Todos",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "app",
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+	"features": {
+    "ghcr.io/devcontainers/features/node:1": {},
+    "ghcr.io/devcontainers-contrib/features/typescript:2": {}
+  },
+	"forwardPorts": [
+		3000,
+		5432
+	],
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"Prisma.prisma"
+			]
+		}
+	}
+}
