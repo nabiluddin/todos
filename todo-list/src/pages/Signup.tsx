@@ -5,6 +5,7 @@ import { AxiosApi } from "../services/axiosApi";
 import toast from 'solid-toast';
 import { useUserContext } from "../context/User";
 import { FormSubmit, TextInput } from "../components";
+import logo from "../assets/images/logo.svg";
 
 type SignForm = {
   username: string,
@@ -41,7 +42,7 @@ const Signup: Component = () => {
         <div class="container container-tight py-4">
           <div class="text-center mb-4">
             <A href="/" class="d-flex justify-content-center align-items-center gap-1">
-              <span><img src="/src/assets/images/logo.svg" width="28" alt="logo" /> </span>
+              <span><img src={logo} width="28" alt="logo" /></span>
               <span><h1 class="mt-3 text-primary">Todos</h1></span>
             </A>
           </div>

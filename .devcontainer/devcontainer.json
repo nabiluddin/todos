@@ -8,13 +8,14 @@
     "ghcr.io/devcontainers-contrib/features/typescript:2": {}
   },
 	"forwardPorts": [
-		3000,
+		5000,
 		5432
 	],
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"Prisma.prisma"
+				"Prisma.prisma",
+				"humao.rest-client"
 			]
 		}
 	}

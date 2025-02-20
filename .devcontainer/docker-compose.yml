@@ -13,7 +13,7 @@ services:
     network_mode: service:db
 
   db:
-    container_name: todos-db
+    container_name: todos-db-psql
     image: postgres:latest
     restart: unless-stopped
     volumes:

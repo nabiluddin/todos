@@ -7,6 +7,7 @@ import { TaskContextProvider } from "../context/Task";
 import { getUserTasks } from "../utils/queries";
 import { switchTheme } from "../utils/switchTheme";
 import { ArchivedTasks, DeleteConfirmation, Loading, Logout, StatusColumn, TaskForm } from "../components";
+import logo from "../assets/images/logo.svg";
 
 type TaskState = {
   archived: TaskType[];
@@ -70,7 +71,7 @@ const HomeComponent: Component = () => {
             </button>
             <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
               <A href="/" class="d-flex justify-content-center align-items-center gap-1">
-                <span><img src="/src/assets/images/logo.svg" width="28" alt="logo" /></span>
+                <span><img src={logo} width="28" alt="logo" /></span>
                 <span><h1 class="mt-3 text-primary">Todos</h1></span>
               </A>
             </h1>

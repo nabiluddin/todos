@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import UserService from "./user";
 import { user } from "@prisma/client";
 import OmitSensitiveData from "../utils/omitSensitiveSata";
