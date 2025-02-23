@@ -16,11 +16,11 @@ type SignForm = {
 const Signup: Component = () => {
   const [loginForm, { Form, Field }] = createForm<SignForm>();
   const navigate = useNavigate();
+  const [user] = useUserContext();
 
   const handleSignin = async (props: SignForm) => {
-    const [user] = useUserContext();
     if (user()) {
-      toast.success("you are already logged in", { duration: 3500, position: "bottom-right", className: "mb-8 me-4" });
+      toast.success("you are already logged in", { duration: 3500, position: "bottom-right", className: "mb-4 me-4" });
       navigate("/", { replace: true });
       return;
     }
@@ -28,11 +28,11 @@ const Signup: Component = () => {
       const result = await AxiosApi.post("/auth/signup", props);
       if (result.data && result.status === 201) {
         navigate("/login", { replace: true });
-        toast.success(result.data.message, { duration: 3500, position: "bottom-right", className: "mb-8 me-4" });
+        toast.success(result.data.message, { duration: 3500, position: "bottom-right", className: "mb-4 me-4" });
       }
     } catch (error: any) {
       console.log("Signup Failed: ", error.response.data.error);
-      toast.error(error.response?.data?.error || "An error occurred while signup.", { duration: 3500, position: "bottom-right", className: "mb-8 me-4" });
+      toast.error(error.response?.data?.error || "An error occurred while signup.", { duration: 3500, position: "bottom-right", className: "mb-4 me-4" });
     }
   }
 

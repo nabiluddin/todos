@@ -13,8 +13,9 @@ type TextInputProps = {
   required?: boolean;
   label?: string;
   error?: string;
-  class?: string
-  row?: string
+  class?: string;
+  row?: string;
+  superClasses?: string;
 };
 
 const TextInput: Component<TextInputProps> = (props) => {
@@ -22,7 +23,8 @@ const TextInput: Component<TextInputProps> = (props) => {
     'value',
     'label',
     'error',
-    'class'
+    'class',
+    'superClasses'
   ]);
   createEffect(() => {
     // console.log(props.name, ": ", props.value);
@@ -41,7 +43,7 @@ const TextInput: Component<TextInputProps> = (props) => {
   });
 
   return (
-    <div>
+    <div class={props.superClasses}>
       <label
         class={`form-label ${props?.required && "required"} `}
         for={props.name}

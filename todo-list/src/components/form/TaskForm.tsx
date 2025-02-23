@@ -77,11 +77,11 @@ const TaskForm: Component = () => {
         result = await AxiosApi.post("/tasks", taskData);
       }
       refetchData("userTasks");
-      toast.success(result.data.message, { duration: 3500, position: "bottom-right", className: "mb-8 me-4" });
+      toast.success(result.data.message, { duration: 3500, position: "bottom-right", className: "mb-4 me-4" });
       window.bootstrap.Modal.getOrCreateInstance(taskFormModal).toggle()
     } catch (error: any) {
       console.error("Task submission failed:", error.response?.data?.error);
-      toast.error(error.response?.data?.error || "An error occurred while submitting the task.", { duration: 3500, position: "bottom-right", className: "mb-8 me-4" });
+      toast.error(error.response?.data?.error || "An error occurred while submitting the task.", { duration: 3500, position: "bottom-right", className: "mb-4 me-4" });
     }
   }
   

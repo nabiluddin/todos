@@ -13,10 +13,10 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
     'Root element not found. Did you forget to add it to your index.html? Or maybe the id attribute got misspelled?',
   );
 }
-if(localStorage.getItem("tablerTheme")){
-  document.body.setAttribute('data-bs-theme', localStorage.getItem("tablerTheme") as string)
+if(localStorage.getItem("todosTheme")){
+  document.body.setAttribute('data-bs-theme', localStorage.getItem("todosTheme") as string)
 } else {
-  localStorage.setItem("tablerTheme", 'light')
+  localStorage.setItem("todosTheme", 'light')
   document.body.setAttribute('data-bs-theme', 'light')
 }
 render(() => <App /> , root!);

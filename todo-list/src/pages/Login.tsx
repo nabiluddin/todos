@@ -20,7 +20,7 @@ const Login: Component = () => {
 
   const handleLogin = async (props: LoginForm) => {
     if (user()) {
-      toast.success("You are already logged in. \nFirst logout current user then log in again!", { duration: 5000, position: "bottom-right", className: "mb-8 me-4" });
+      toast.success("You are already logged in. \nFirst logout current user then log in again!", { duration: 5000, position: "bottom-right", className: "mb-4 me-4" });
       navigate("/", { replace: true });
       return;
     }
@@ -28,10 +28,10 @@ const Login: Component = () => {
       const result: AxiosResponse = await AxiosApi.post("/auth/login", props)
       setUser(result.data.user)
       navigate("/", { replace: true });
-      toast.success(result.data.message, { duration: 3500, position: "bottom-right", className: "mb-8 me-4" });
+      toast.success(result.data.message, { duration: 3500, position: "bottom-right", className: "mb-4 me-4" });
     } catch (error: any) {
       console.log("Login Failed: ", error.response.data.error);
-      toast.error(error.response?.data?.error || "An error occurred while login.", { duration: 3500, position: "bottom-right", className: "mb-8 me-4" });
+      toast.error(error.response?.data?.error || "An error occurred while login.", { duration: 3500, position: "bottom-right", className: "mb-4 me-4" });
     }
   }
 

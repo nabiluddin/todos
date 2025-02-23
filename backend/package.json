@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
+    "init": "pnpm prisma generate && pnpm prisma migrate deploy && nodemon",
     "build": "tsc",
-    "dev": "pnpm prisma migrate deploy && nodemon",
-    "build:prod": "./sc.sh",
-    "start:prod": "node dist/index.js"
+    "dev": "nodemon",
+    "start": "node dist/index.js"
   },
   "keywords": [],
   "author": "",

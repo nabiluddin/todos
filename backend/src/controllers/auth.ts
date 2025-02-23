@@ -58,7 +58,7 @@ class AuthController {
       }
 
       const token = authService.generateToken({ email: user.email, id: user.id });
-      res.cookie("token", token, { httpOnly: true, maxAge: 86400000 });
+      res.cookie("token", token, { httpOnly: true, maxAge: 86400000, secure: true, sameSite: "none" });
       if (user) {
         OmitSensitiveData(user, sensitiveFields)
       }

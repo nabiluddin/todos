@@ -11,10 +11,10 @@ const DeleteConfirmation = () => {
       const result = await AxiosApi.delete(`/tasks/${taskId()}`);
       setTaskId("")
       refetchData("userTasks")
-      toast.success(result.data.message, {duration: 3500, position: "bottom-right", className: "mb-8 me-4"});
+      toast.success(result.data.message, {duration: 3500, position: "bottom-right", className: "mb-4 me-4"});
     } catch (error: any) {
       console.error("Task deletion failed:", error.response?.data?.error);
-      toast.error(error.response?.data?.error || "An error occurred while deleting the task.", {duration: 3500, position: "bottom-right", className: "mb-8 me-4"});
+      toast.error(error.response?.data?.error || "An error occurred while deleting the task.", {duration: 3500, position: "bottom-right", className: "mb-4 me-4"});
     }
   }
   return (

@@ -29,7 +29,10 @@ CREATE TABLE "task_status" (
     CONSTRAINT "task_status_pkey" PRIMARY KEY ("id")
 );
 INSERT INTO "task_status" (id, status)
-VALUES ('a2c4b5c6-d7e8-4f9a-abcd-2d3e4f5c6a7b', 'Default Status');
+VALUES 
+    ('a1c4b5c6-d7e8-4f9a-abcd-2d3e4f5c6a7a', 'Todo'), 
+    ('a1c4b5c6-d7e8-4f9a-abcd-2d3e4f5c6a7b', 'In Progress'), 
+    ('a1c4b5c6-d7e8-4f9a-abcd-2d3e4f5c6a7c', 'Done');
 
 
 -- AddForeignKey

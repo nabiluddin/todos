@@ -6,7 +6,7 @@ const ArchivedTasks: Component<{ statusType: string, tasks: TaskType[] | undefin
   return (
     <section class="row row-cards">
       {props.tasks?.map((task: TaskType) => (
-        <div class="col-sm-6 col-lg-3">
+        <div class="col-sm-6 col-lg-4">
           <TaskCard id={task.id} title={task.title} description={task.description} dueDate={task.due_date} status={task.status?.status} archived={task.archived}  completed={task.completed}  />
         </div>
       ))}

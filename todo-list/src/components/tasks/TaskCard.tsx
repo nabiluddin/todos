@@ -23,22 +23,6 @@ type CardType = {
   completed?: boolean
 }
 
-const handleInputChange = async (taskId: string, data: { [key: string]: string | boolean | undefined }, refetch?: boolean) => {
-  try {
-    if (Object.keys(data).length === 0) {
-      refetchData("userTasks");
-      return;
-    }
-    if (data.hasOwnProperty('due_date')) {
-      data['due_date'] = new Date(data['due_date'] as string).toISOString()
-    }
-    await AxiosApi.put(`/tasks/${taskId}`, data);
-    if (refetch) refetchData("userTasks");
-  } catch (error: any) {
-    console.error("Task submission failed:", error.response?.data);
-    toast.error(error.response?.data?.error || "An error occurred while submitting the task.", { duration: 3500, position: "bottom-right", className: "mb-8 me-4" });
-  }
-}
 
 const TaskCard: Component<CardType> = (props) => {
   const [taskId, setTaskId] = useTaskContext();
@@ -51,9 +35,40 @@ const TaskCard: Component<CardType> = (props) => {
   );
 
   const isDueDateNear = createMemo(() => {
-    const timeDiff = new Date(props.dueDate).getTime() - new Date().getTime();
-    return timeDiff > -1 && timeDiff <= 2 * 24 * 60 * 60 * 1000;
+    const dueDate = new Date(props.dueDate);
+    const today = new Date();
+
+    // Get only the date part (ignore time)
+    const dueDay = dueDate.getDate();
+    const todayDay = today.getDate();
+
+    return dueDay === todayDay || dueDay === todayDay - 1;
   });
+
+  const handleInputChange = async (taskId: string, data: { [key: string]: string | boolean | undefined }, refetch?: boolean) => {
+    try {
+      if (!data.completed && data.status_id === doneStatusId()) return;
+
+      if (!Object.keys(data).length) {
+        refetchData("userTasks");
+        return;
+      }
+      if (data.due_date) data.due_date = new Date(data.due_date as string).toISOString();
+      const result = await AxiosApi.put(`/tasks/${taskId}`, data);
+      if ("archived" in data) {
+        toast.success(
+          data.archived ? "Task archived!" : "Task unarchived!",
+          { duration: 3500, position: "bottom-right", className: "mb-4 me-4" }
+        );
+      } else if (!("title" in data || "description" in data)) {
+        toast.success(result.data.message, { duration: 3500, position: "bottom-right", className: "mb-4 me-4" });
+      }
+      if (refetch) refetchData("userTasks");
+    } catch (error: any) {
+      console.error("Task submission failed:", error.response?.data);
+      toast.error(error.response?.data?.error || "An error occurred while submitting the task.", { duration: 3500, position: "bottom-right", className: "mb-4 me-4" });
+    }
+  }
 
   return (
     <div
@@ -64,7 +79,7 @@ const TaskCard: Component<CardType> = (props) => {
       <div class="card-body ps-3" onClick={() => setTaskId(props.id)}>
         <Form>
           <div class="d-flex justify-content-between">
-            <h3 class="mb-0 d-flex ">
+            <h3 class="mb-0 d-flex w-100">
               <div class="col-auto text-green cursor-pointer my-auto me-1" data-bs-toggle="modal" data-bs-target="#task-form">
                 <IconEdit size={22} />
               </div>
@@ -77,7 +92,8 @@ const TaskCard: Component<CardType> = (props) => {
                     error={field.error}
                     type="text"
                     placeholder="Task Title"
-                    class="p-0 m-0 bg-none card-title border-0"
+                    class="p-0 m-0 bg-none card-title border-0 shadow-none"
+                    superClasses="w-75"
                     onInput={(e) => handleInputChange(props.id, { [field.name]: (e.target as HTMLInputElement).value }, false)}
                   />
                 )}
@@ -102,7 +118,7 @@ const TaskCard: Component<CardType> = (props) => {
                 formElement="input"
                 value={props.description}
                 error={field.error}
-                class="px-0 py-2 m-0 text-secondary text-sm mb-0 bg-none border-0 resize-none"
+                class="px-0 pt-0 pb-2 m-0 text-secondary text-sm mb-0 bg-none border-0 resize-none shadow-none"
                 onInput={(e) => handleInputChange(props.id, { [field.name]: (e.target as HTMLInputElement).value }, false)}
               />
             )}
@@ -118,7 +134,7 @@ const TaskCard: Component<CardType> = (props) => {
                     error={field.error}
                     options={taskStatus()?.map((status) => ({ label: status.status, value: status.id })) || []}
                     placeholder="⏳"
-                    class="bg-none border-0 p-0 m-0 cursor-pointer"
+                    class="bg-none border-0 p-0 m-0 cursor-pointer shadow-none"
                     onChange={(e) => handleInputChange(props.id, { [field.name]: (e.target as HTMLSelectElement).value, completed: field.value === doneStatusId() }, true)}
                   />
                 )}
@@ -143,7 +159,7 @@ const TaskCard: Component<CardType> = (props) => {
               <span>{readableDate()}</span>
             </div>
 
-            <span class="col-auto text-green cursor-pointer" onClick={(e) => handleInputChange(props.id, { status_id: doneStatusId(), completed: true }, true)}>
+            <span class="col-auto text-green cursor-pointer" onClick={(e) => handleInputChange(props.id, { status_id: doneStatusId(), completed: !props.completed }, true)}>
               <Field name="completed" type="boolean"
                 transform={toCustom(
                   (value, event) => {

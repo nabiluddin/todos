@@ -1,11 +1,15 @@
-FROM node:18-slim AS build
+FROM node:18-alpine AS build
 
 RUN mkdir -p /workspaces
 WORKDIR /workspaces
+COPY package.json .
+COPY package-lock.json .
+RUN npm ci
 COPY . .
-RUN npm run build:prod
 
-FROM gcr.io/distroless/nodejs22-debian12 AS production
+RUN sh prisma-and-build.sh
+
+FROM node:18-alpine AS production
 WORKDIR /app
 COPY --from=build /workspaces/dist ./
 
