@@ -1,11 +1,12 @@
 FROM node:18-alpine AS build
 
-RUN mkdir -p /workspaces
 WORKDIR /workspaces
-COPY package.json .
-COPY package-lock.json .
+COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
+
+ARG DATABASE_URL
+ENV DATABASE_URL=${DATABASE_URL}
 
 RUN sh prisma-and-build.sh
 
